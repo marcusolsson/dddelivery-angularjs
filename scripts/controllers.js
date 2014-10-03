@@ -1,11 +1,11 @@
 var trackApp = angular.module('trackApp', ['ngResource']);
 
 trackApp.factory("Location", function($resource) {
-    return $resource("/locations");
+    return $resource("http://sincere-passage-709.appspot.com/locations");
 });
 
 trackApp.factory("Cargo", function($resource) {
-    return $resource("/cargos/:id", null, {
+    return $resource("http://sincere-passage-709.appspot.com/cargos/:id", null, {
 	'find': {method: 'GET', params: {id: "@id"}},
 	'list': {method: 'GET', isArray: true},
 	'book': {method: 'POST', params: {origin: "@origin", destination: "@destination", arrivalDeadline: "@arrivalDeadline"}}
