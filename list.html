@@ -58,7 +58,7 @@
 	    <th>Routed</th>
 	  </tr>
 	  <tr ng-repeat="c in cargos">
-	    <td><a href="details.html">{{ c.trackingId }}</a></td>
+	    <td><a href="details.html?trackingId={{ c.trackingId }}">{{ c.trackingId }}</a></td>
 	    <td>{{ c.origin }}</td>
 	    <td>{{ c.destination }}</td>
 	    <td>Yes</td>

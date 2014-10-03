@@ -1,5 +1,9 @@
 var trackApp = angular.module('trackApp', ['ngResource']);
 
+trackApp.config(function ($locationProvider) {
+    $locationProvider.html5Mode(true);
+});
+
 trackApp.factory("Location", function($resource) {
     return $resource("http://sincere-passage-709.appspot.com/locations");
 });
@@ -61,4 +65,11 @@ trackApp.controller('BookCargoCtrl', function ($scope, Location, Cargo) {
 	    });
 	})
     }
+});
+
+trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Cargo) {
+    var trackingId = $location.search().trackingId;
+    Cargo.find({ id: trackingId }, function(data) {
+	$scope.cargo = data;
+    });
 });
