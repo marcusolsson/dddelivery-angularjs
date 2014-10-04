@@ -1,9 +1,5 @@
 var trackApp = angular.module('trackApp', ['ngResource']);
 
-trackApp.config(function ($locationProvider) {
-    $locationProvider.html5Mode(true);
-});
-
 trackApp.factory("Location", function($resource) {
     return $resource("http://sincere-passage-709.appspot.com/locations");
 });
