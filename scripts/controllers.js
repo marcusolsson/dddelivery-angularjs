@@ -12,6 +12,14 @@ trackApp.factory("Cargo", function($resource) {
     });
 });
 
+trackApp.factory("Destination", function($resource) {
+    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/change_destination", null, {
+	'change': {method: 'POST', params: {id: "@id", destination: "@destination"}}
+    });
+});
+
+
+
 trackApp.controller('TrackCtrl', function ($scope, Cargo) {
     $scope.showCargo = function (query) {
 	if (query) {
@@ -63,9 +71,23 @@ trackApp.controller('BookCargoCtrl', function ($scope, Location, Cargo) {
     }
 });
 
-trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Cargo) {
+trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, Cargo, Destination) {
     var trackingId = $location.search().trackingId;
     Cargo.find({ id: trackingId }, function(data) {
 	$scope.cargo = data;
     });
+
+    Location.query(function(data) {
+	$scope.locations = data;
+	$scope.selectedDestination = $scope.locations[0].locode
+    });
+
+    $scope.changeDestination = function () {
+	Destination.change({id: trackingId, destination: $scope.selectedDestination}, function (data) {
+	});
+    }
+
+    $scope.selectDestination = function (locode) {
+	$scope.selectedDestination = locode;
+    }
 });
