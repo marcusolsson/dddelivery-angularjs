@@ -18,11 +18,19 @@ trackApp.factory("Destination", function($resource) {
     });
 });
 
+trackApp.factory("AssignToRoute", function($resource) {
+    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/assign_to_route", null, {
+	'assign': {method: 'POST', params: {id: "@id"}}
+    });
+});
+
 trackApp.factory("RouteCandidates", function($resource) {
     return $resource("http://sincere-passage-709.appspot.com/cargos/:id/request_routes", null, {
 	'request': {method: 'GET', isArray: true, params: {id: "@id"}}
     });
 });
+
+
 
 trackApp.controller('TrackCtrl', function ($scope, Cargo) {
     $scope.showCargo = function (query) {
@@ -42,7 +50,7 @@ trackApp.controller('ListCtrl', function ($scope, Cargo) {
     });
 });
 
-trackApp.controller('BookCargoCtrl', function ($scope, Location, Cargo) {
+trackApp.controller('BookCargoCtrl', function ($scope, $window, Location, Cargo) {
     Location.query(function(data) {
 	$scope.locations = data;
 	$scope.selectedOrigin = $scope.locations[0].locode
@@ -71,6 +79,9 @@ trackApp.controller('BookCargoCtrl', function ($scope, Location, Cargo) {
 	    Cargo.list(function(listResponse) {
 		$scope.$parent.cargos = listResponse;
 	    });
+
+	    // TODO: Close dialog instead of refreshing page.
+	    $window.location.href = 'list.html';
 	})
     }
 });
@@ -96,7 +107,7 @@ trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, C
     }
 });
 
-trackApp.controller('SelectItineraryCtrl', function ($scope, $location, Cargo, RouteCandidates) {
+trackApp.controller('SelectItineraryCtrl', function ($scope, $location, $window, Cargo, RouteCandidates, AssignToRoute) {
     var trackingId = $location.search().trackingId;
     Cargo.find({ id: trackingId }, function(data) {
 	$scope.cargo = data;
@@ -105,4 +116,10 @@ trackApp.controller('SelectItineraryCtrl', function ($scope, $location, Cargo, R
     RouteCandidates.request({ id: trackingId }, function (data) {
 	$scope.routeCandidates = data;
     });
+
+    $scope.assignToRoute = function (itinerary) {
+	AssignToRoute.assign({ id: trackingId }, itinerary, function (data) {
+	    $window.location.href = 'details.html#/?trackingId=' + trackingId;
+	});
+    }
 });
