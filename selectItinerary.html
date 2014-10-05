@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="trackApp">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Cargo Administration</title>
+
+    <script src="scripts/jquery-2.1.1.min.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/angular-resource.min.js"></script>
+    <script src="scripts/controllers.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- bootstrap-datepicker -->
+    <link rel="stylesheet" href="styles/datepicker3.css">
+  </head>
+  <body ng-controller="SelectItineraryCtrl">
+    <div class="container-fluid">
+
+      <!-- Header -->
+      <div class="page-header clearfix">
+	<div class="pull-right"><h2>Domain Driven Delivery <small>We're ubiquitous!</small></h2></div>
+	<h1>Cargo Booking and Routing</h1>
+      </div>
+
+      <h4>Cargo {{ cargo.trackingId }} is going from {{ cargo.origin }} to {{ cargo.destination }}</h4>
+
+      <div class="panel panel-default" ng-repeat="it in routeCandidates">
+	<div class="panel-heading">Route candidate</div>
+	<table class="table">
+	  <tr>
+	    <th>Voyage number</th>
+	    <th colspan="2">From</th>
+	    <th colspan="2">To</th>
+	  </tr>
+
+	  <tr ng-repeat="leg in it.legs">
+	    <td>{{ leg.voyage }}</td>
+	    <td>{{ leg.from }}</td>
+	    <td>{{ leg.loadTime }}</td>
+	    <td>{{ leg.to }}</td>
+	    <td>{{ leg.unloadTime }}</td>
+	  </tr>
+	</table>
+	<div class="panel-footer text-right"><a class="btn btn-primary" href="#">Assign cargo to this route</a></div>
+      </div>
+
+      <a class="btn btn-primary" href="list.html">Return to cargo list</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center">
+    </div>
+    </div>
+  </body>
+</html>

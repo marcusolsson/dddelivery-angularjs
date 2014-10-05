@@ -18,7 +18,11 @@ trackApp.factory("Destination", function($resource) {
     });
 });
 
-
+trackApp.factory("RouteCandidates", function($resource) {
+    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/request_routes", null, {
+	'request': {method: 'GET', isArray: true, params: {id: "@id"}}
+    });
+});
 
 trackApp.controller('TrackCtrl', function ($scope, Cargo) {
     $scope.showCargo = function (query) {
@@ -90,4 +94,15 @@ trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, C
     $scope.selectDestination = function (locode) {
 	$scope.selectedDestination = locode;
     }
+});
+
+trackApp.controller('SelectItineraryCtrl', function ($scope, $location, Cargo, RouteCandidates) {
+    var trackingId = $location.search().trackingId;
+    Cargo.find({ id: trackingId }, function(data) {
+	$scope.cargo = data;
+    });
+
+    RouteCandidates.request({ id: trackingId }, function (data) {
+	$scope.routeCandidates = data;
+    });
 });
