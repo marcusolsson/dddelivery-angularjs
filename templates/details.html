@@ -1,0 +1,86 @@
+<div ng-show="cargo">
+  <!-- Show cargo information dialog -->
+  <div class="panel panel-default">
+    <table class="table">
+      <tr>
+	<td>Origin</td>
+	<td>{{ cargo.origin }}</td>
+      </tr>
+      <tr>
+	<td>Destination</td>
+	<td>{{ cargo.destination }}<br/><a href="" data-toggle="modal" data-target="#changeDestinationDialog">Change destination</a></td>
+      </tr>
+      <tr>
+	<td>Arrival deadline</td>
+	<td>{{ cargo.arrivalDeadline }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div ng-if="cargo.routed">
+    <div class="has-error" ng-if="cargo.misrouted">
+      <span class="help-block">Cargo is misrouted - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Reroute this cargo</a></span>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Itinerary</div>
+      <table class="table">
+	<tr>
+	  <th>Voyage number</th>
+	  <th colspan="2">Load</th>
+	  <th colspan="2">Unload</th>
+	</tr>
+	<tr ng-repeat="leg in cargo.legs">
+	  <td>{{ leg.voyage }}</td>
+	  <td>{{ leg.from }}</td>
+	  <td>{{ leg.loadTime }}</td>
+	  <td>{{ leg.to }}</td>
+	  <td>{{ leg.unloadTime }}</td>
+	</tr>
+      </table>
+    </div>
+  </div>
+
+  <div ng-if="cargo.routed === false">
+    <div class="has-warning">
+      <span class="help-block">Cargo has not been routed - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Route this cargo</a></span>
+    </div>
+  </div>
+</div>
+
+<a class="btn btn-primary" href="#/list">Return to cargo list</a>
+</div>
+
+<!-- Change destination dialog -->
+<div class="modal fade" id="changeDestinationDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+	  <span aria-hidden="true">&times;</span>
+	  <span class="sr-only">Close</span>
+	</button>
+        <h4 class="modal-title">Change destination</h4>
+      </div>
+      <div class="modal-body">
+	<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <label class="col-sm-4 control-label">New Destination</label>
+	    <div class="btn-group">
+	      <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+		{{ selectedDestination }}&nbsp;<span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu">
+		<li ng-repeat="l in locations"><a href="" ng-click="selectDestination(l.locode)">{{ l.locode }}</a><li>
+	      </ul>
+	    </div>
+	  </div>
+	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="changeDestination()">Change destination</button>
+      </div>
+    </div>
+  </div>
+</div>

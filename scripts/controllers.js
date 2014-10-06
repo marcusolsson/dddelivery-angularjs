@@ -1,56 +1,16 @@
-var trackApp = angular.module('trackApp', ['ngResource']);
+var app = angular.module("app");
 
-trackApp.factory("Location", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/locations");
-});
-
-trackApp.factory("Cargo", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/cargos/:id", null, {
-	'find': {method: 'GET', params: {id: "@id"}},
-	'list': {method: 'GET', isArray: true},
-	'book': {method: 'POST', params: {origin: "@origin", destination: "@destination", arrivalDeadline: "@arrivalDeadline"}}
-    });
-});
-
-trackApp.factory("Destination", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/change_destination", null, {
-	'change': {method: 'POST', params: {id: "@id", destination: "@destination"}}
-    });
-});
-
-trackApp.factory("AssignToRoute", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/assign_to_route", null, {
-	'assign': {method: 'POST', params: {id: "@id"}}
-    });
-});
-
-trackApp.factory("RouteCandidates", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/cargos/:id/request_routes", null, {
-	'request': {method: 'GET', isArray: true, params: {id: "@id"}}
-    });
-});
-
-
-
-trackApp.controller('TrackCtrl', function ($scope, Cargo) {
-    $scope.showCargo = function (query) {
-	if (query) {
-	    Cargo.find({ id: query }, function(data) {
-		$scope.cargo = data;
-	    });
-	} else {
-	    $scope.cargo = null
-	}
+app.controller('TrackCtrl', function ($scope, BookingService) {
+    $scope.showCargo = function (trackingId) {
+	$scope.cargo = BookingService.getCargo(trackingId);
     }
 });
 
-trackApp.controller('ListCtrl', function ($scope, Cargo) {
-    Cargo.list(function(data) {
-	$scope.cargos = data;
-    });
+app.controller('ListCargoCtrl', function ($scope, cargos) {
+    $scope.cargos = cargos;
 });
 
-trackApp.controller('BookCargoCtrl', function ($scope, $window, Location, Cargo) {
+app.controller('BookCargoCtrl', function ($scope, $location, Location, BookingService) {
     Location.query(function(data) {
 	$scope.locations = data;
 	$scope.selectedOrigin = $scope.locations[0].locode
@@ -67,30 +27,16 @@ trackApp.controller('BookCargoCtrl', function ($scope, $window, Location, Cargo)
 
     $scope.bookCargo = function () {
 	var deadlineDate = new Date($scope.deadline).getTime();
+	$scope.bookedCargo = BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, deadlineDate);
 
-	Cargo.book({
-	    origin: $scope.selectedOrigin,
-	    destination: $scope.selectedDestination,
-	    arrivalDeadline: deadlineDate
-	}, function(bookResponse) {
-	    $scope.bookedCargo = bookResponse;
-
-	    // refresh list
-	    Cargo.list(function(listResponse) {
-		$scope.$parent.cargos = listResponse;
-	    });
-
-	    // TODO: Close dialog instead of refreshing page.
-	    $window.location.href = 'list.html';
-	})
+	// refresh list
+	$scope.$parent.cargos = BookingService.getCargos();
     }
 });
 
-trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, Cargo, Destination) {
+app.controller('CargoDetailsCtrl', function ($scope, $location, Location, BookingService) {
     var trackingId = $location.search().trackingId;
-    Cargo.find({ id: trackingId }, function(data) {
-	$scope.cargo = data;
-    });
+    $scope.cargo = BookingService.getCargo(trackingId);
 
     Location.query(function(data) {
 	$scope.locations = data;
@@ -98,8 +44,7 @@ trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, C
     });
 
     $scope.changeDestination = function () {
-	Destination.change({id: trackingId, destination: $scope.selectedDestination}, function (data) {
-	});
+	BookingService.changeDestination(trackingId, $scope.selectedDestination);
     }
 
     $scope.selectDestination = function (locode) {
@@ -107,19 +52,13 @@ trackApp.controller('CargoDetailsCtrl', function ($scope, $location, Location, C
     }
 });
 
-trackApp.controller('SelectItineraryCtrl', function ($scope, $location, $window, Cargo, RouteCandidates, AssignToRoute) {
+app.controller('SelectItineraryCtrl', function ($scope, $location, BookingService) {
     var trackingId = $location.search().trackingId;
-    Cargo.find({ id: trackingId }, function(data) {
-	$scope.cargo = data;
-    });
-
-    RouteCandidates.request({ id: trackingId }, function (data) {
-	$scope.routeCandidates = data;
-    });
+    $scope.cargo = BookingService.getCargo(trackingId);
+    $scope.routeCandidates = BookingService.requestPossibleRoutes(trackingId);
 
     $scope.assignToRoute = function (itinerary) {
-	AssignToRoute.assign({ id: trackingId }, itinerary, function (data) {
-	    $window.location.href = 'details.html#/?trackingId=' + trackingId;
-	});
+	BookingService.assignToRoute(trackingId, itinerary);
+	$location.path('/details').search('trackingId', trackingId);
     }
 });
