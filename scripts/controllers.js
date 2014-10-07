@@ -47,22 +47,47 @@ app.controller('BookCargoCtrl', function ($scope, $location, BookingService, $mo
     };
 });
 
-app.controller('CargoDetailsCtrl', function ($scope, $location, BookingService) {
+app.controller('CargoDetailsCtrl', function ($scope, $modal, $location, BookingService) {
     var trackingId = $location.search().trackingId;
     $scope.cargo = BookingService.getCargo(trackingId);
 
+    $scope.open = function () {
+	var modalInstance = $modal.open({
+	    templateUrl: 'template/changeDestination.html',
+	    controller: 'ChangeDestinationCtrl',
+	    resolve: {
+		cargo: function(BookingService) {
+		    return BookingService.getCargo(trackingId);
+		}
+	    }
+	});
+
+	modalInstance.result.then(function (data) {
+	    $scope.cargo = data;
+	});
+    };
+});
+
+app.controller('ChangeDestinationCtrl', function ($scope, $modalInstance, cargo, BookingService) {
+    // Populate location dropdown
     BookingService.getLocations().$promise.then(function(data) {
 	$scope.locations = data;
-	$scope.selectedDestination = $scope.locations[0].locode
+	$scope.selectedDestination = cargo.destination;
     });
+    $scope.selectDestination = function (locode) { $scope.selectedDestination = locode; }
 
+    // Change destination and close the modal.
     $scope.changeDestination = function () {
-	BookingService.changeDestination(trackingId, $scope.selectedDestination);
+	BookingService.changeDestination(cargo.trackingId, $scope.selectedDestination).$promise.then(function () {
+	    $scope.cargo = BookingService.getCargo(cargo.trackingId);
+	    $modalInstance.close($scope.cargo);
+	});
     }
 
-    $scope.selectDestination = function (locode) {
-	$scope.selectedDestination = locode;
-    }
+    // Dismiss the modal.
+    $scope.cancel = function () {
+	$modalInstance.dismiss('cancel');
+    };
 });
 
 app.controller('SelectItineraryCtrl', function ($scope, $location, BookingService) {

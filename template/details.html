@@ -8,7 +8,7 @@
       </tr>
       <tr>
 	<td>Destination</td>
-	<td>{{ cargo.destination }}<br/><a href="" data-toggle="modal" data-target="#changeDestinationDialog">Change destination</a></td>
+	<td>{{ cargo.destination }}<br/><a href="" ng-click="open()">Change destination</a></td>
       </tr>
       <tr>
 	<td>Arrival deadline</td>
@@ -49,38 +49,4 @@
 </div>
 
 <a class="btn btn-primary" href="#/list">Return to cargo list</a>
-</div>
-
-<!-- Change destination dialog -->
-<div class="modal fade" id="changeDestinationDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-	  <span aria-hidden="true">&times;</span>
-	  <span class="sr-only">Close</span>
-	</button>
-        <h4 class="modal-title">Change destination</h4>
-      </div>
-      <div class="modal-body">
-	<form class="form-horizontal" role="form">
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">New Destination</label>
-	    <div class="btn-group">
-	      <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
-		{{ selectedDestination }}&nbsp;<span class="caret"></span>
-	      </button>
-	      <ul class="dropdown-menu">
-		<li ng-repeat="l in locations"><a href="" ng-click="selectDestination(l.locode)">{{ l.locode }}</a><li>
-	      </ul>
-	    </div>
-	  </div>
-	</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="changeDestination()">Change destination</button>
-      </div>
-    </div>
-  </div>
 </div>
