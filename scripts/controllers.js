@@ -6,39 +6,52 @@ app.controller('TrackCtrl', function ($scope, BookingService) {
     }
 });
 
-app.controller('ListCargoCtrl', function ($scope, cargos) {
+app.controller('ListCargoCtrl', function ($scope, $modal, $location, cargos) {
     $scope.cargos = cargos;
+
+    // Method to open dialog for booking a cargo.
+    $scope.open = function () {
+	var modalInstance = $modal.open({
+	    templateUrl: 'template/bookCargo.html',
+	    controller: 'BookCargoCtrl'
+	});
+
+	// Redirect to details page if cargo was booked.
+	modalInstance.result.then(function (bookedCargo) {
+	    $location.path('/details').search('trackingId', bookedCargo.trackingId);
+	});
+    };
 });
 
-app.controller('BookCargoCtrl', function ($scope, $location, Location, BookingService) {
-    Location.query(function(data) {
+app.controller('BookCargoCtrl', function ($scope, $location, BookingService, $modalInstance) {
+    // Populate location dropdowns
+    BookingService.getLocations().$promise.then(function(data) {
 	$scope.locations = data;
 	$scope.selectedOrigin = $scope.locations[0].locode
 	$scope.selectedDestination = $scope.locations[0].locode
     });
+    $scope.selectOrigin = function (locode) { $scope.selectedOrigin = locode; }
+    $scope.selectDestination = function (locode) { $scope.selectedDestination = locode; }
 
-    $scope.selectOrigin = function (locode) {
-	$scope.selectedOrigin = locode;
-    }
-
-    $scope.selectDestination = function (locode) {
-	$scope.selectedDestination = locode;
-    }
-
+    // Books a cargo with selected origin, destinal and arrival deadline and closes the modal.
     $scope.bookCargo = function () {
 	var deadlineDate = new Date($scope.deadline).getTime();
-	$scope.bookedCargo = BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, deadlineDate);
-
-	// refresh list
-	$scope.$parent.cargos = BookingService.getCargos();
+	BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, deadlineDate).$promise.then(function(data) {
+	    $modalInstance.close(data);
+	});
     }
+
+    // Dismiss the modal.
+    $scope.cancel = function () {
+	$modalInstance.dismiss('cancel');
+    };
 });
 
-app.controller('CargoDetailsCtrl', function ($scope, $location, Location, BookingService) {
+app.controller('CargoDetailsCtrl', function ($scope, $location, BookingService) {
     var trackingId = $location.search().trackingId;
     $scope.cargo = BookingService.getCargo(trackingId);
 
-    Location.query(function(data) {
+    BookingService.getLocations().$promise.then(function(data) {
 	$scope.locations = data;
 	$scope.selectedDestination = $scope.locations[0].locode
     });
@@ -54,6 +67,7 @@ app.controller('CargoDetailsCtrl', function ($scope, $location, Location, Bookin
 
 app.controller('SelectItineraryCtrl', function ($scope, $location, BookingService) {
     var trackingId = $location.search().trackingId;
+
     $scope.cargo = BookingService.getCargo(trackingId);
     $scope.routeCandidates = BookingService.requestPossibleRoutes(trackingId);
 

@@ -1,13 +1,13 @@
 var app = angular
-    .module('app', ['ngRoute', 'ngResource'])
+    .module('app', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
 	    when('/', {
-		templateUrl: 'templates/track.html',
+		templateUrl: 'template/track.html',
 		controller: 'TrackCtrl'
 	    }).
 	    when('/list', {
-		templateUrl: 'templates/list.html',
+		templateUrl: 'template/list.html',
 		controller: 'ListCargoCtrl',
 		resolve: {
 		    cargos: function(BookingService) {
@@ -16,11 +16,11 @@ var app = angular
 		}
 	    }).
 	    when('/details', {
-		templateUrl: 'templates/details.html',
+		templateUrl: 'template/details.html',
 		controller: 'CargoDetailsCtrl'
 	    }).
 	    when('/selectItinerary', {
-		templateUrl: 'templates/selectItinerary.html',
+		templateUrl: 'template/selectItinerary.html',
 		controller: 'SelectItineraryCtrl'
 	    });
     }]);

@@ -1,6 +1,6 @@
 var app = angular.module("app");
 
-app.factory("BookingService", function (Cargo, AssignToRoute, RouteCandidates, Destination) {
+app.factory("BookingService", function (Location, Cargo, AssignToRoute, RouteCandidates, Destination) {
     return {
 	getCargos: function() {
 	    return Cargo.list(function(data) {
@@ -34,8 +34,14 @@ app.factory("BookingService", function (Cargo, AssignToRoute, RouteCandidates, D
 	changeDestination: function(trackingId, destination) {
 	    return Destination.change({id: trackingId, destination: destination}, function (data) {
 		return data;
-	});
+	    });
+	},
+	getLocations: function() {
+	    return Location.list(function (data){
+		return data;
+	    });
 	}
+
     };
 });
 
@@ -48,7 +54,9 @@ app.factory("Cargo", function($resource) {
 });
 
 app.factory("Location", function($resource) {
-    return $resource("http://sincere-passage-709.appspot.com/locations");
+    return $resource("http://sincere-passage-709.appspot.com/locations", null, {
+	'list': {method: 'GET', isArray: true}
+    });
 });
 
 app.factory("Destination", function($resource) {
