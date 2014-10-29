@@ -13,6 +13,7 @@ deploy :
     - script:
         name: deploy to github pages
         code: |-
+          bower install
           git init
           git add .
           git commit -m "deploy commit from $WERCKER_STARTED_BY"
