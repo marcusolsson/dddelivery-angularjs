@@ -7,7 +7,7 @@ build:
           code: sudo npm install -g bower
       - script:
           name: install bower dependencies
-          code: bower install
+          code: bower install --config.interactive=false
 
 deploy :
   steps :
@@ -15,9 +15,8 @@ deploy :
           name: install bower
           code: sudo npm install -g bower
     - script:
-          cwd: $WERCKER_OUTPUT_DIR
           name: install bower dependencies
-          code: bower install
+          code: bower install --config.interactive=false
     - script:
         name: configure git
         code: |-
