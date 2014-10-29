@@ -1,0 +1,58 @@
+<div ng-show="cargo">
+    <h2>Details for {{ cargo.trackingId }}</h2>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Origin</td>
+                <td>{{ cargo.origin }}</td>
+            </tr>
+            <tr>
+                <td>Destination</td>
+                <td>{{ cargo.destination }}
+                    <br/><a href="" ng-click="open()">Change destination</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Arrival deadline</td>
+                <td>{{ cargo.arrivalDeadline }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div ng-if="cargo.routed">
+        <div class="has-error" ng-if="cargo.misrouted">
+            <span class="help-block">Cargo is misrouted - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Reroute this cargo</a>
+            </span>
+        </div>
+
+        <h3>Itinerary</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Voyage number</th>
+                    <th colspan="2">Load</th>
+                    <th colspan="2">Unload</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="leg in cargo.legs">
+                    <td>{{ leg.voyageNumber }}</td>
+                    <td>{{ leg.from }}</td>
+                    <td>{{ leg.loadTime }}</td>
+                    <td>{{ leg.to }}</td>
+                    <td>{{ leg.unloadTime }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-if="cargo.routed === false">
+        <div class="has-warning">
+            <span class="help-block">Cargo has not been routed - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Route this cargo</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<a class="btn" href="#/list">Return to cargo list</a>
+</div>

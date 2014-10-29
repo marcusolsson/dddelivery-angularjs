@@ -1,26 +1,29 @@
 var app = angular
     .module('app', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     .config(['$routeProvider', function($routeProvider) {
-	$routeProvider.
-	    when('/', {
-		templateUrl: 'template/track.html',
-		controller: 'TrackCtrl'
-	    }).
-	    when('/list', {
-		templateUrl: 'template/list.html',
-		controller: 'ListCargoCtrl',
-		resolve: {
-		    cargos: function(BookingService) {
-			return BookingService.getCargos();
-		    }
-		}
-	    }).
-	    when('/details', {
-		templateUrl: 'template/details.html',
-		controller: 'CargoDetailsCtrl'
-	    }).
-	    when('/selectItinerary', {
-		templateUrl: 'template/selectItinerary.html',
-		controller: 'SelectItineraryCtrl'
-	    });
+        $routeProvider.
+        when('/', {
+            templateUrl: 'views/about.html',
+        }).
+        when('/track', {
+            templateUrl: 'views/track.html',
+            controller: 'TrackCtrl'
+        }).
+        when('/list', {
+            templateUrl: 'views/list.html',
+            controller: 'ListCtrl',
+            resolve: {
+                cargos: function(BookingService) {
+                    return BookingService.getCargos();
+                }
+            }
+        }).
+        when('/details', {
+            templateUrl: 'views/details.html',
+            controller: 'DetailsCtrl'
+        }).
+        when('/selectItinerary', {
+            templateUrl: 'views/selectItinerary.html',
+            controller: 'SelectItineraryCtrl'
+        });
     }]);
