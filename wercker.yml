@@ -12,12 +12,6 @@ build:
 deploy :
   steps :
     - script:
-          name: install bower
-          code: sudo npm install -g bower
-    - script:
-          name: install bower dependencies
-          code: bower install --config.interactive=false
-    - script:
         name: configure git
         code: |-
           git config --global user.email "ninjasinventedphysics@gmail.com"
@@ -30,5 +24,6 @@ deploy :
         code: |-
           git init
           git add .
+          git add bower_components -f
           git commit -m "deploy commit from $WERCKER_STARTED_BY"
           git push -f $GIT_REMOTE master:gh-pages
