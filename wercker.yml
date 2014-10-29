@@ -15,7 +15,7 @@ deploy :
           name: install bower
           code: sudo npm install -g bower
     - script:
-          cwd: build/
+          cwd: $WERCKER_OUTPUT_DIR
           name: install bower dependencies
           code: bower install
     - script:
