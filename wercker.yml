@@ -15,6 +15,7 @@ deploy :
           name: install bower
           code: sudo npm install -g bower
     - script:
+          cwd: build/
           name: install bower dependencies
           code: bower install
     - script:
