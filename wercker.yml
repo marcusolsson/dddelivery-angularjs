@@ -1,4 +1,13 @@
-box: wercker/default
+box: wercker/nodejs
+
+build:
+    steps:
+      - script:
+          name: install bower
+          code: sudo npm install -g bower
+      - script:
+          name: install bower dependencies
+          code: bower install
 
 deploy :
   steps :
@@ -13,7 +22,6 @@ deploy :
     - script:
         name: deploy to github pages
         code: |-
-          bower install
           git init
           git add .
           git commit -m "deploy commit from $WERCKER_STARTED_BY"
