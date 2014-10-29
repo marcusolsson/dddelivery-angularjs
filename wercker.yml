@@ -1,16 +1,13 @@
 box: wercker/nodejs
 
-build:
-    steps:
-      - script:
-          name: install bower
-          code: sudo npm install -g bower
-      - script:
-          name: install bower dependencies
-          code: bower install
-
 deploy :
   steps :
+    - script:
+          name: install bower
+          code: sudo npm install -g bower
+    - script:
+          name: install bower dependencies
+          code: bower install
     - script:
         name: configure git
         code: |-
