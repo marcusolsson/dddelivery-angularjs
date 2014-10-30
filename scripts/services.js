@@ -6,8 +6,8 @@ app.factory("BackendService", function($cookieStore) {
         description: 'Go (Marcus Olsson)'
     },
     {
-        host: 'http://example.com',
-        description: 'Other (Your Name)'
+        host: 'http://localhost:3000',
+        description: 'localhost:3000'
     }];
 
     return {
