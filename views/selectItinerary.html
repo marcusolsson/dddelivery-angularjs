@@ -1,28 +1,32 @@
 <div class="row">
-    <a class="btn btn-default pull-right" href="#/details?trackingId={{ cargo.trackingId }}">Return to cargo details</a>
+    <div class="col-xs-12">
+        <a class="btn btn-default pull-right" href="#/details?trackingId={{ cargo.trackingId }}">Return to cargo details</a>
+    </div>
 </div>
 <div class="row">
-    <h2>Cargo {{ cargo.trackingId }} is going from {{ cargo.origin }} to {{ cargo.destination }}</h2>
-    <div class="panel panel-default" ng-repeat="it in routeCandidates">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Voyage number</th>
-                    <th colspan="2">From</th>
-                    <th colspan="2">To</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="leg in it.legs">
-                    <td>{{ leg.voyageNumber }}</td>
-                    <td>{{ leg.from }}</td>
-                    <td>{{ leg.loadTime | date: 'medium' }}</td>
-                    <td>{{ leg.to }}</td>
-                    <td>{{ leg.unloadTime | date: 'medium' }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="panel-footer text-right"><a class="btn btn-primary" ng-click="assignToRoute(it)">Assign cargo to this route</a>
+    <div class="col-xs-12">
+        <h2>Cargo {{ cargo.trackingId }} is going from {{ cargo.origin }} to {{ cargo.destination }}</h2>
+        <div class="panel panel-default" ng-repeat="it in routeCandidates">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Voyage number</th>
+                        <th colspan="2">From</th>
+                        <th colspan="2">To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="leg in it.legs">
+                        <td>{{ leg.voyageNumber }}</td>
+                        <td>{{ leg.from }}</td>
+                        <td>{{ leg.loadTime | date: 'medium' }}</td>
+                        <td>{{ leg.to }}</td>
+                        <td>{{ leg.unloadTime | date: 'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer text-right"><a class="btn btn-primary" ng-click="assignToRoute(it)">Assign cargo to this route</a>
+            </div>
         </div>
     </div>
 </div>

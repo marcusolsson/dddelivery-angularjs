@@ -1,30 +1,35 @@
-<div class="row" style="margin-bottom: 40px">
-    <form role="form">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter tracking ID" name="srch-term" id="srch-term" ng-model="searchQuery" ng-minlength=1>
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" ng-click="showCargo(searchQuery)">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-xs-12">
+        <form role="form">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter tracking ID" ng-model="searchQuery" ng-minlength=1>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="showCargo(searchQuery)">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-
-<div class="panel panel-default row" ng-show="cargo">
-    <div class="panel-body">
-        <div class="col-md-6">
-            <h4>Cargo {{ cargo.trackingId }} is now: {{ cargo.statusText}}</h4>
-            <p>Estimated time of arrival in {{ cargo.destination }}: {{ cargo.eta | date: 'medium' }}</p>
-            <p>{{ cargo.nextExpectedActivity }}</p>
-        </div>
-        <div class="col-md-6">
-            <h5 class="text-uppercase">Handling history</h5>
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="leg in cargo.events">
-                    <span class="glyphicon" ng-class="leg.expected ? 'glyphicon-ok' : 'glyphicon-exclamation-sign'"></span>&nbsp;&nbsp;{{ leg.description }}
-                </li>
-            </ul>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default" ng-show="cargo">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <h4>Cargo {{ cargo.trackingId }} is now: {{ cargo.statusText}}</h4>
+                    <p>Estimated time of arrival in {{ cargo.destination }}: {{ cargo.eta | date: 'medium' }}</p>
+                    <p>{{ cargo.nextExpectedActivity }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-uppercase">Handling history</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="leg in cargo.events">
+                            <span class="glyphicon" ng-class="leg.expected ? 'glyphicon-ok' : 'glyphicon-exclamation-sign'"></span>&nbsp;&nbsp;{{ leg.description }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
