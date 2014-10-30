@@ -12,9 +12,9 @@
             <tr ng-repeat="leg in it.legs">
                 <td>{{ leg.voyageNumber }}</td>
                 <td>{{ leg.from }}</td>
-                <td>{{ leg.loadTime }}</td>
+                <td>{{ leg.loadTime | date: 'medium' }}</td>
                 <td>{{ leg.to }}</td>
-                <td>{{ leg.unloadTime }}</td>
+                <td>{{ leg.unloadTime | date: 'medium' }}</td>
             </tr>
         </tbody>
     </table>
