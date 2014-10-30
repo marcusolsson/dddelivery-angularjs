@@ -107,3 +107,14 @@ app.controller('SelectItineraryCtrl', function($scope, $location, BookingService
         });
     }
 });
+
+app.controller('SelectBackendCtrl', function($scope, $window, BackendService) {
+    $scope.backends = BackendService.getAll();
+    $scope.currentBackend = BackendService.getCurrent();
+
+    $scope.selectBackend = function(b) {
+        $scope.currentBackend = b;
+        BackendService.select(b);
+        $window.location.reload();
+    }
+});

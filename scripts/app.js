@@ -1,5 +1,5 @@
 var app = angular
-    .module('app', ['ngRoute', 'ngResource', 'ui.bootstrap'])
+    .module('app', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
         when('/', {

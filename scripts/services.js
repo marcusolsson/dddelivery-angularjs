@@ -1,5 +1,28 @@
 var app = angular.module("app");
 
+app.factory("BackendService", function($cookieStore) {
+    var backends = [{
+        host: 'http://murmuring-oasis-1247.herokuapp.com',
+        description: 'Go (Marcus Olsson)'
+    },
+    {
+        host: 'http://example.com',
+        description: 'Other (Your Name)'
+    }];
+
+    return {
+        select: function(b) {
+            $cookieStore.put('currentBackend', b);
+        },
+        getCurrent: function() {
+            return $cookieStore.get('currentBackend') || $scope.backends[0];
+        },
+        getAll: function() {
+            return backends;
+        }
+    };
+});
+
 app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCandidates, Destination) {
     return {
         getCargos: function() {
@@ -54,8 +77,8 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
     };
 });
 
-app.factory("Cargo", function($resource) {
-    return $resource("http://murmuring-oasis-1247.herokuapp.com/cargos/:id", null, {
+app.factory("Cargo", function($resource, BackendService) {
+    return $resource(BackendService.getCurrent().host + "/cargos/:id", null, {
         'find': {
             method: 'GET',
             params: {
@@ -77,8 +100,8 @@ app.factory("Cargo", function($resource) {
     });
 });
 
-app.factory("Location", function($resource) {
-    return $resource("http://murmuring-oasis-1247.herokuapp.com/locations", null, {
+app.factory("Location", function($resource, BackendService) {
+    return $resource(BackendService.getCurrent().host + "/locations", null, {
         'list': {
             method: 'GET',
             isArray: true
@@ -86,8 +109,8 @@ app.factory("Location", function($resource) {
     });
 });
 
-app.factory("Destination", function($resource) {
-    return $resource("http://murmuring-oasis-1247.herokuapp.com/cargos/:id/change_destination", null, {
+app.factory("Destination", function($resource, BackendService) {
+    return $resource(BackendService.getCurrent().host + "/cargos/:id/change_destination", null, {
         'change': {
             method: 'POST',
             params: {
@@ -98,8 +121,8 @@ app.factory("Destination", function($resource) {
     });
 });
 
-app.factory("AssignToRoute", function($resource) {
-    return $resource("http://murmuring-oasis-1247.herokuapp.com/cargos/:id/assign_to_route", null, {
+app.factory("AssignToRoute", function($resource, BackendService) {
+    return $resource(BackendService.getCurrent().host + "/cargos/:id/assign_to_route", null, {
         'assign': {
             method: 'POST',
             params: {
@@ -109,8 +132,8 @@ app.factory("AssignToRoute", function($resource) {
     });
 });
 
-app.factory("RouteCandidates", function($resource) {
-    return $resource("http://murmuring-oasis-1247.herokuapp.com/cargos/:id/request_routes", null, {
+app.factory("RouteCandidates", function($resource, BackendService) {
+    return $resource(BackendService.getCurrent().host + "/cargos/:id/request_routes", null, {
         'request': {
             method: 'GET',
             isArray: true,
