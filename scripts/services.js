@@ -15,7 +15,7 @@ app.factory("BackendService", function($cookieStore) {
             $cookieStore.put('currentBackend', b);
         },
         getCurrent: function() {
-            return $cookieStore.get('currentBackend') || $scope.backends[0];
+            return $cookieStore.get('currentBackend') || backends[0];
         },
         getAll: function() {
             return backends;
