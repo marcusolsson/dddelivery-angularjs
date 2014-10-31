@@ -23,6 +23,22 @@ app.factory("BackendService", function($cookieStore) {
     };
 });
 
+app.factory("IncidentService", function(Incident){
+    return {
+        registerIncident: function(completionTime, trackingId, voyage, location, eventType) {
+            return Incident.register({
+                completionTime: completionTime,
+                trackingId: trackingId,
+                voyage: voyage,
+                location: location,
+                eventType: eventType
+            }, function(data) {
+                return data;
+            });
+        }
+    };
+})
+
 app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCandidates, Destination) {
     return {
         getCargos: function() {
@@ -75,6 +91,21 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
         }
 
     };
+});
+
+app.factory("Incident", function($resource, BackendService){
+    return $resource(BackendService.getCurrent().host + "/incidents", null, {
+        'register': {
+            method: 'POST',
+            params: {
+                completionTime: "@completionTime",
+                trackingId: "@trackingId",
+                voyage: "@voyage",
+                location: "@location",
+                eventType: "@eventType"
+            }
+        }
+    });
 });
 
 app.factory("Cargo", function($resource, BackendService) {

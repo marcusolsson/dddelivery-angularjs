@@ -119,11 +119,21 @@ app.controller('SelectBackendCtrl', function($scope, $window, BackendService) {
     }
 });
 
-app.controller('IncidentLoggingCtrl', function($scope) {
+app.controller('IncidentLoggingCtrl', function($scope, IncidentService) {
     $scope.eventTypes = ['Receive', 'Load', 'Unload', 'Customs', 'Claim'];
     $scope.selectedEventType = $scope.eventTypes[0];
 
     $scope.selectEventType = function(type) {
         $scope.selectedEventType = type;
+    }
+
+    $scope.registerIncident = function() {
+        var promise = IncidentService.registerIncident($scope.completionTime.getTime(), $scope.trackingId, $scope.voyage, $scope.location, $scope.selectedEventType).$promise.then(function(data) {
+            $scope.showMessage = true;
+            $scope.showError = false;
+        }, function(error) {
+            $scope.showError = true;
+            $scope.showMessage = false;
+        })
     }
 });
