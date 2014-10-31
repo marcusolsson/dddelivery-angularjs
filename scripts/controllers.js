@@ -118,3 +118,12 @@ app.controller('SelectBackendCtrl', function($scope, $window, BackendService) {
         $window.location.reload();
     }
 });
+
+app.controller('IncidentLoggingCtrl', function($scope) {
+    $scope.eventTypes = ['Receive', 'Load', 'Unload', 'Customs', 'Claim'];
+    $scope.selectedEventType = $scope.eventTypes[0];
+
+    $scope.selectEventType = function(type) {
+        $scope.selectedEventType = type;
+    }
+});

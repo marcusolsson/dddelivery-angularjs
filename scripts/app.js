@@ -25,5 +25,9 @@ var app = angular
         when('/selectItinerary', {
             templateUrl: 'views/selectItinerary.html',
             controller: 'SelectItineraryCtrl'
+        }).
+        when('/log', {
+            templateUrl: 'views/log.html',
+            controller: 'IncidentLoggingCtrl'
         });
     }]);
