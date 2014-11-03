@@ -5,7 +5,7 @@
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label class="col-sm-4 control-label">Origin</label>
-            <div class="btn-group" dropdown>
+            <div class="col-sm-8 btn-group" dropdown>
                 <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="disabled">
                     {{ selectedOrigin }}&nbsp;
                     <span class="caret"></span>
@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">Destination</label>
-            <div class="btn-group" dropdown>
+            <div class="col-sm-8 btn-group" dropdown>
                 <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="disabled">
                     {{ selectedDestination }}&nbsp;
                     <span class="caret"></span>
@@ -33,7 +33,7 @@
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label">Arrival deadline</label>
-            <datepicker ng-model="deadline" show-weeks="false"></datepicker>
+            <datepicker class="col-sm-8" ng-model="deadline" show-weeks="false"></datepicker>
         </div>
     </form>
 </div>
