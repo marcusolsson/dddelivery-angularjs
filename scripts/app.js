@@ -29,5 +29,8 @@ var app = angular
         when('/log', {
             templateUrl: 'views/log.html',
             controller: 'IncidentLoggingCtrl'
+        }).
+        when('/documentation', {
+            templateUrl: 'views/documentation.html'
         });
     }]);
