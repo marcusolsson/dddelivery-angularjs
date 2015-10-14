@@ -5,10 +5,10 @@ app.factory("BackendService", function($cookieStore) {
         host: 'http://murmuring-oasis-1247.herokuapp.com',
         description: 'Go (Marcus Olsson)'
     },
-    {
-        host: 'http://localhost:3000',
-        description: 'localhost:3000'
-    }];
+        {
+            host: 'http://localhost:3000',
+            description: 'localhost:3000'
+        }];
 
     return {
         select: function(b) {
@@ -23,7 +23,7 @@ app.factory("BackendService", function($cookieStore) {
     };
 });
 
-app.factory("IncidentService", function(Incident){
+app.factory("IncidentService", function(Incident) {
     return {
         registerIncident: function(completionTime, trackingId, voyage, location, eventType) {
             return Incident.register({
@@ -93,7 +93,7 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
     };
 });
 
-app.factory("Incident", function($resource, BackendService){
+app.factory("Incident", function($resource, BackendService) {
     return $resource(BackendService.getCurrent().host + "/incidents", null, {
         'register': {
             method: 'POST',

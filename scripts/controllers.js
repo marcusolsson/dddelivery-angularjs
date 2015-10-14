@@ -134,6 +134,5 @@ app.controller('IncidentLoggingCtrl', function($scope, IncidentService) {
         }, function(error) {
             $scope.showError = true;
             $scope.showMessage = false;
-        })
-    }
+        })    }
 });

@@ -1,15 +1,12 @@
 var app = angular
     .module('app', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'])
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.
-        when('/', {
+        $routeProvider.when('/', {
             templateUrl: 'views/about.html',
-        }).
-        when('/track', {
+        }).when('/track', {
             templateUrl: 'views/track.html',
             controller: 'TrackCtrl'
-        }).
-        when('/list', {
+        }).when('/list', {
             templateUrl: 'views/list.html',
             controller: 'ListCtrl',
             resolve: {
@@ -17,20 +14,16 @@ var app = angular
                     return BookingService.getCargos();
                 }
             }
-        }).
-        when('/details', {
+        }).when('/details', {
             templateUrl: 'views/details.html',
             controller: 'DetailsCtrl'
-        }).
-        when('/selectItinerary', {
+        }).when('/selectItinerary', {
             templateUrl: 'views/selectItinerary.html',
             controller: 'SelectItineraryCtrl'
-        }).
-        when('/log', {
+        }).when('/log', {
             templateUrl: 'views/log.html',
             controller: 'IncidentLoggingCtrl'
-        }).
-        when('/documentation', {
+        }).when('/documentation', {
             templateUrl: 'views/documentation.html'
         });
     }]);
