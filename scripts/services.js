@@ -2,7 +2,7 @@ var app = angular.module("app");
 
 app.factory("BackendService", function($cookieStore) {
     var backends = [{
-        host: 'http://murmuring-oasis-1247.herokuapp.com',
+        host: 'http://dddsample-go.herokuapp.com',
         description: 'Go (Marcus Olsson)'
     },
         {
