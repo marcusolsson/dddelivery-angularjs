@@ -43,14 +43,14 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
     return {
         getCargos: function() {
             return Cargo.list(function(data) {
-                return data.cargos;
+                return data
             });
         },
         getCargo: function(trackingId) {
             return Cargo.find({
                 id: trackingId
             }, function(data) {
-                return data;
+                return data
             });
         },
         bookCargo: function(origin, destination, arrivalDeadline) {
@@ -86,7 +86,7 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
         },
         getLocations: function() {
             return Location.list(function(data) {
-                return data;
+                return data.locations;
             });
         }
 
@@ -117,8 +117,7 @@ app.factory("Cargo", function($resource, BackendService) {
             }
         },
         'list': {
-            method: 'GET',
-            isArray: true
+            method: 'GET'
         },
         'book': {
             method: 'POST',
@@ -134,8 +133,7 @@ app.factory("Cargo", function($resource, BackendService) {
 app.factory("Location", function($resource, BackendService) {
     return $resource(BackendService.getCurrent().host + "/locations", null, {
         'list': {
-            method: 'GET',
-            isArray: true
+            method: 'GET'
         }
     });
 });

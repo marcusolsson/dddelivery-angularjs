@@ -7,7 +7,7 @@ app.controller('TrackCtrl', function($scope, BookingService) {
 });
 
 app.controller('ListCtrl', function($scope, $modal, $location, cargos) {
-    $scope.cargos = cargos;
+    $scope.cargos = cargos.cargos;
 
     // Method to open dialog for booking a cargo.
     $scope.open = function() {
@@ -26,7 +26,7 @@ app.controller('ListCtrl', function($scope, $modal, $location, cargos) {
 app.controller('BookCargoCtrl', function($scope, $location, BookingService, $modalInstance) {
     // Populate location dropdowns
     BookingService.getLocations().$promise.then(function(data) {
-        $scope.locations = data;
+        $scope.locations = data.locations;
         $scope.selectedOrigin = $scope.locations[0].locode
         $scope.selectedDestination = $scope.locations[0].locode
     });
@@ -52,7 +52,9 @@ app.controller('BookCargoCtrl', function($scope, $location, BookingService, $mod
 
 app.controller('DetailsCtrl', function($scope, $modal, $location, BookingService) {
     var trackingId = $location.search().trackingId;
-    $scope.cargo = BookingService.getCargo(trackingId);
+    BookingService.getCargo(trackingId).$promise.then(function(data) {
+        $scope.cargo = data.cargo;
+    });
 
     $scope.open = function() {
         var modalInstance = $modal.open({
@@ -60,21 +62,23 @@ app.controller('DetailsCtrl', function($scope, $modal, $location, BookingService
             controller: 'ChangeDestinationCtrl',
             resolve: {
                 cargo: function(BookingService) {
-                    return BookingService.getCargo(trackingId);
+                    return BookingService.getCargo(trackingId).$promise;
                 }
             }
         });
 
         modalInstance.result.then(function(data) {
-            $scope.cargo = data;
+            $scope.cargo = data.cargo;
         });
     };
 });
 
 app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, BookingService) {
+    cargo = cargo.cargo;
+
     // Populate location dropdown
     BookingService.getLocations().$promise.then(function(data) {
-        $scope.locations = data;
+        $scope.locations = data.locations;
         $scope.selectedDestination = cargo.destination;
     });
     $scope.selectDestination = function(locode) {
@@ -84,8 +88,9 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
     // Change destination and close the modal.
     $scope.changeDestination = function() {
         BookingService.changeDestination(cargo.trackingId, $scope.selectedDestination).$promise.then(function() {
-            $scope.cargo = BookingService.getCargo(cargo.trackingId);
-            $modalInstance.close($scope.cargo);
+            BookingService.getCargo(cargo.trackingId).$promise.then(function(c) {
+                $modalInstance.close(c);
+            });
         });
     }
 
