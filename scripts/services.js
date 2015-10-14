@@ -43,7 +43,7 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
     return {
         getCargos: function() {
             return Cargo.list(function(data) {
-                return data;
+                return data.cargos;
             });
         },
         getCargo: function(trackingId) {
