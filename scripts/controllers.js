@@ -2,12 +2,16 @@ var app = angular.module("app");
 
 app.controller('TrackCtrl', function($scope, BookingService) {
     $scope.showCargo = function(trackingId) {
-        $scope.cargo = BookingService.getCargo(trackingId);
+        BookingService.getCargo(trackingId).$promise.then(function(result) {
+            $scope.cargo = result.cargo;
+        });
     }
 });
 
-app.controller('ListCtrl', function($scope, $modal, $location, cargos) {
-    $scope.cargos = cargos.cargos;
+app.controller('ListCtrl', function($scope, $modal, $location, BookingService) {
+    BookingService.getCargos().$promise.then(function(result) {
+        $scope.cargos = result.cargos;
+    });
 
     // Method to open dialog for booking a cargo.
     $scope.open = function() {
@@ -25,8 +29,8 @@ app.controller('ListCtrl', function($scope, $modal, $location, cargos) {
 
 app.controller('BookCargoCtrl', function($scope, $location, BookingService, $modalInstance) {
     // Populate location dropdowns
-    BookingService.getLocations().$promise.then(function(data) {
-        $scope.locations = data.locations;
+    BookingService.getLocations().$promise.then(function(result) {
+        $scope.locations = result.locations;
         $scope.selectedOrigin = $scope.locations[0].locode
         $scope.selectedDestination = $scope.locations[0].locode
     });
@@ -39,8 +43,8 @@ app.controller('BookCargoCtrl', function($scope, $location, BookingService, $mod
 
     // Books a cargo with selected origin, destinal and arrival deadline and closes the modal.
     $scope.bookCargo = function() {
-        BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, $scope.deadline.getTime()).$promise.then(function(data) {
-            $modalInstance.close(data);
+        BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, $scope.deadline.getTime()).$promise.then(function(result) {
+            $modalInstance.close(result);
         });
     }
 
@@ -52,8 +56,8 @@ app.controller('BookCargoCtrl', function($scope, $location, BookingService, $mod
 
 app.controller('DetailsCtrl', function($scope, $modal, $location, BookingService) {
     var trackingId = $location.search().trackingId;
-    BookingService.getCargo(trackingId).$promise.then(function(data) {
-        $scope.cargo = data.cargo;
+    BookingService.getCargo(trackingId).$promise.then(function(result) {
+        $scope.cargo = result.cargo;
     });
 
     $scope.open = function() {
@@ -77,8 +81,8 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
     cargo = cargo.cargo;
 
     // Populate location dropdown
-    BookingService.getLocations().$promise.then(function(data) {
-        $scope.locations = data.locations;
+    BookingService.getLocations().$promise.then(function(result) {
+        $scope.locations = result.locations;
         $scope.selectedDestination = cargo.destination;
     });
     $scope.selectDestination = function(locode) {
@@ -88,8 +92,8 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
     // Change destination and close the modal.
     $scope.changeDestination = function() {
         BookingService.changeDestination(cargo.trackingId, $scope.selectedDestination).$promise.then(function() {
-            BookingService.getCargo(cargo.trackingId).$promise.then(function(c) {
-                $modalInstance.close(c);
+            BookingService.getCargo(cargo.trackingId).$promise.then(function(result) {
+                $modalInstance.close(result);
             });
         });
     }
@@ -104,10 +108,13 @@ app.controller('SelectItineraryCtrl', function($scope, $location, BookingService
     var trackingId = $location.search().trackingId;
 
     $scope.cargo = BookingService.getCargo(trackingId);
-    $scope.routeCandidates = BookingService.requestPossibleRoutes(trackingId);
+
+    BookingService.requestPossibleRoutes(trackingId).$promise.then(function(result) {
+        $scope.routeCandidates = result.routes;
+    });
 
     $scope.assignToRoute = function(itinerary) {
-        BookingService.assignToRoute(trackingId, itinerary).$promise.then(function(data) {
+        BookingService.assignToRoute(trackingId, itinerary).$promise.then(function() {
             $location.path('/details').search('trackingId', trackingId);
         });
     }

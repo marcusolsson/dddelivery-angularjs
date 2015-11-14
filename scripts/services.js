@@ -50,7 +50,7 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
             return Cargo.find({
                 id: trackingId
             }, function(data) {
-                return data
+                return data;
             });
         },
         bookCargo: function(origin, destination, arrivalDeadline) {
@@ -165,7 +165,6 @@ app.factory("RouteCandidates", function($resource, BackendService) {
     return $resource(BackendService.getCurrent().host + "/cargos/:id/request_routes", null, {
         'request': {
             method: 'GET',
-            isArray: true,
             params: {
                 id: "@id"
             }

@@ -9,11 +9,6 @@ var app = angular
         }).when('/list', {
             templateUrl: 'views/list.html',
             controller: 'ListCtrl',
-            resolve: {
-                cargos: function(BookingService) {
-                    return BookingService.getCargos();
-                }
-            }
         }).when('/details', {
             templateUrl: 'views/details.html',
             controller: 'DetailsCtrl'
