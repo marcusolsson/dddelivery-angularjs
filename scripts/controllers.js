@@ -22,7 +22,7 @@ app.controller('ListCtrl', function($scope, $modal, $location, BookingService) {
 
         // Redirect to details page if cargo was booked.
         modalInstance.result.then(function(bookedCargo) {
-            $location.path('/details').search('trackingId', bookedCargo.trackingId);
+            $location.path('/details').search('trackingId', bookedCargo.tracking_id);
         });
     };
 });
@@ -91,8 +91,8 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
 
     // Change destination and close the modal.
     $scope.changeDestination = function() {
-        BookingService.changeDestination(cargo.trackingId, $scope.selectedDestination).$promise.then(function() {
-            BookingService.getCargo(cargo.trackingId).$promise.then(function(result) {
+        BookingService.changeDestination(cargo.tracking_id, $scope.selectedDestination).$promise.then(function() {
+            BookingService.getCargo(cargo.tracking_id).$promise.then(function(result) {
                 $modalInstance.close(result);
             });
         });
@@ -105,7 +105,7 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
 });
 
 app.controller('SelectItineraryCtrl', function($scope, $location, BookingService) {
-    var trackingId = $location.search().trackingId;
+    var trackingId = $location.search().tracking_id;
 
     $scope.cargo = BookingService.getCargo(trackingId);
 

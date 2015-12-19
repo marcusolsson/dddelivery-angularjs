@@ -21,14 +21,14 @@
                 </tr>
                 <tr>
                     <td>Arrival deadline</td>
-                    <td>{{ cargo.arrivalDeadline | date: 'medium' }}</td>
+                    <td>{{ cargo.arrival_deadline | date: 'medium' }}</td>
                 </tr>
             </tbody>
         </table>
 
         <div ng-if="cargo.routed">
             <div class="has-error" ng-if="cargo.misrouted">
-                <span class="help-block">Cargo is misrouted - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Reroute this cargo</a>
+                <span class="help-block">Cargo is misrouted - <a href="#/selectItinerary?tracking_id={{ cargo.tracking_id }}">Reroute this cargo</a>
                 </span>
             </div>
 
@@ -43,11 +43,11 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="leg in cargo.legs">
-                        <td>{{ leg.voyageNumber }}</td>
+                        <td>{{ leg.voyage_number }}</td>
                         <td>{{ leg.from }}</td>
-                        <td>{{ leg.loadTime | date: 'medium' }}</td>
+                        <td>{{ leg.load_time | date: 'medium' }}</td>
                         <td>{{ leg.to }}</td>
-                        <td>{{ leg.unloadTime | date: 'medium' }}</td>
+                        <td>{{ leg.unload_time | date: 'medium' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -55,7 +55,7 @@
 
         <div ng-if="cargo.routed === false">
             <div class="has-warning">
-                <span class="help-block">Cargo has not been routed - <a href="#/selectItinerary?trackingId={{ cargo.trackingId }}">Route this cargo</a>
+                <span class="help-block">Cargo has not been routed - <a href="#/selectItinerary?tracking_id={{ cargo.tracking_id }}">Route this cargo</a>
                 </span>
             </div>
         </div>

@@ -98,11 +98,11 @@ app.factory("Incident", function($resource, BackendService) {
         'register': {
             method: 'POST',
             params: {
-                completionTime: "@completionTime",
-                trackingId: "@trackingId",
+                completion_time: "@completionTime",
+                tracking_id: "@trackingId",
                 voyage: "@voyage",
                 location: "@location",
-                eventType: "@eventType"
+                event_type: "@eventType"
             }
         }
     });
@@ -124,7 +124,7 @@ app.factory("Cargo", function($resource, BackendService) {
             params: {
                 origin: "@origin",
                 destination: "@destination",
-                arrivalDeadline: "@arrivalDeadline"
+                arrival_deadline: "@arrivalDeadline"
             }
         }
     });
