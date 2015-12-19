@@ -97,7 +97,7 @@ app.factory("Incident", function($resource, BackendService) {
     return $resource(BackendService.getCurrent().host + "/incidents", null, {
         'register': {
             method: 'POST',
-            params: {
+            data: {
                 completion_time: "@completionTime",
                 tracking_id: "@trackingId",
                 voyage: "@voyage",
@@ -121,7 +121,7 @@ app.factory("Cargo", function($resource, BackendService) {
         },
         'book': {
             method: 'POST',
-            params: {
+            data: {
                 origin: "@origin",
                 destination: "@destination",
                 arrival_deadline: "@arrivalDeadline"
