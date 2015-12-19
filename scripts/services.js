@@ -57,7 +57,7 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
             return Cargo.book({
                 origin: origin,
                 destination: destination,
-                arrivalDeadline: arrivalDeadline
+                arrival_deadline: arrivalDeadline
             }, function(data) {
                 return data;
             });
@@ -98,11 +98,11 @@ app.factory("Incident", function($resource, BackendService) {
         'register': {
             method: 'POST',
             data: {
-                completion_time: "@completionTime",
-                tracking_id: "@trackingId",
+                completion_time: "@completion_time",
+                tracking_id: "@tracking_id",
                 voyage: "@voyage",
                 location: "@location",
-                event_type: "@eventType"
+                event_type: "@event_type"
             }
         }
     });
@@ -124,7 +124,7 @@ app.factory("Cargo", function($resource, BackendService) {
             data: {
                 origin: "@origin",
                 destination: "@destination",
-                arrival_deadline: "@arrivalDeadline"
+                arrival_deadline: "@arrival_deadline"
             }
         }
     });
