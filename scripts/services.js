@@ -39,22 +39,22 @@ app.factory("IncidentService", function(Incident) {
     };
 })
 
-app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCandidates, Destination) {
+app.factory("BookingService", function(Location, TrackingCargo, BookingCargo, AssignToRoute, RouteCandidates, Destination) {
     return {
         getCargos: function() {
-            return Cargo.list(function(data) {
+            return BookingCargo.list(function(data) {
                 return data
             });
         },
         getCargo: function(trackingId) {
-            return Cargo.find({
+            return TrackingCargo.track({
                 id: trackingId
             }, function(data) {
                 return data;
             });
         },
         bookCargo: function(origin, destination, arrivalDeadline) {
-            return Cargo.book({
+            return BookingCargo.book({
                 origin: origin,
                 destination: destination,
                 arrival_deadline: arrivalDeadline
@@ -93,8 +93,32 @@ app.factory("BookingService", function(Location, Cargo, AssignToRoute, RouteCand
     };
 });
 
+app.factory("TrackingService", function(TrackingCargo) {
+    return {
+        getCargo: function(trackingId) {
+            return TrackingCargo.track({
+                id: trackingId
+            }, function(data) {
+                return data;
+            });
+        }
+	}
+});
+
+app.factory("TrackingCargo", function($resource, BackendService) {
+	console.log(BackendService.getCurrent().host);
+	return $resource(BackendService.getCurrent().host + "/tracking/v1/cargos/:id", null, {
+		'track': {
+			method: 'GET',
+			params: {
+				id: "@id"
+			}
+		}
+	});
+})
+
 app.factory("Incident", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/incidents", null, {
+    return $resource(BackendService.getCurrent().host + "/handling/v1/incidents", null, {
         'register': {
             method: 'POST',
             data: {
@@ -108,8 +132,8 @@ app.factory("Incident", function($resource, BackendService) {
     });
 });
 
-app.factory("Cargo", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/cargos/:id", null, {
+app.factory("BookingCargo", function($resource, BackendService) {
+	return $resource(BackendService.getCurrent().host + "/booking/v1/cargos/:id", null, {
         'find': {
             method: 'GET',
             params: {
@@ -127,11 +151,11 @@ app.factory("Cargo", function($resource, BackendService) {
                 arrival_deadline: "@arrival_deadline"
             }
         }
-    });
+	});
 });
 
 app.factory("Location", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/locations", null, {
+    return $resource(BackendService.getCurrent().host + "/booking/v1/locations", null, {
         'list': {
             method: 'GET'
         }
@@ -139,7 +163,7 @@ app.factory("Location", function($resource, BackendService) {
 });
 
 app.factory("Destination", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/cargos/:id/change_destination", null, {
+    return $resource(BackendService.getCurrent().host + "/booking/v1/cargos/:id/change_destination", null, {
         'change': {
             method: 'POST',
             params: {
@@ -151,7 +175,7 @@ app.factory("Destination", function($resource, BackendService) {
 });
 
 app.factory("AssignToRoute", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/cargos/:id/assign_to_route", null, {
+    return $resource(BackendService.getCurrent().host + "/booking/v1/cargos/:id/assign_to_route", null, {
         'assign': {
             method: 'POST',
             params: {
@@ -162,7 +186,7 @@ app.factory("AssignToRoute", function($resource, BackendService) {
 });
 
 app.factory("RouteCandidates", function($resource, BackendService) {
-    return $resource(BackendService.getCurrent().host + "/cargos/:id/request_routes", null, {
+    return $resource(BackendService.getCurrent().host + "/booking/v1/cargos/:id/request_routes", null, {
         'request': {
             method: 'GET',
             params: {
