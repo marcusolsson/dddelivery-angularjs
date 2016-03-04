@@ -39,15 +39,15 @@ app.factory("IncidentService", function(Incident) {
     };
 })
 
-app.factory("BookingService", function(Location, TrackingCargo, BookingCargo, AssignToRoute, RouteCandidates, Destination) {
+app.factory("BookingService", function(Location, BookingCargo, AssignToRoute, RouteCandidates, Destination) {
     return {
         getCargos: function() {
             return BookingCargo.list(function(data) {
                 return data
             });
         },
-        getCargo: function(trackingId) {
-            return TrackingCargo.track({
+        loadCargo: function(trackingId) {
+            return BookingCargo.load({
                 id: trackingId
             }, function(data) {
                 return data;
@@ -134,7 +134,7 @@ app.factory("Incident", function($resource, BackendService) {
 
 app.factory("BookingCargo", function($resource, BackendService) {
 	return $resource(BackendService.getCurrent().host + "/booking/v1/cargos/:id", null, {
-        'find': {
+        'load': {
             method: 'GET',
             params: {
                 id: "@id"

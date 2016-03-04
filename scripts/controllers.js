@@ -56,7 +56,7 @@ app.controller('BookCargoCtrl', function($scope, $location, BookingService, $mod
 
 app.controller('DetailsCtrl', function($scope, $modal, $location, BookingService) {
     var trackingId = $location.search().trackingId;
-    BookingService.getCargo(trackingId).$promise.then(function(result) {
+    BookingService.loadCargo(trackingId).$promise.then(function(result) {
         $scope.cargo = result.cargo;
     });
 
@@ -66,7 +66,7 @@ app.controller('DetailsCtrl', function($scope, $modal, $location, BookingService
             controller: 'ChangeDestinationCtrl',
             resolve: {
                 cargo: function(BookingService) {
-                    return BookingService.getCargo(trackingId).$promise;
+                    return BookingService.loadCargo(trackingId).$promise;
                 }
             }
         });
@@ -92,7 +92,7 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
     // Change destination and close the modal.
     $scope.changeDestination = function() {
         BookingService.changeDestination(cargo.tracking_id, $scope.selectedDestination).$promise.then(function() {
-            BookingService.getCargo(cargo.tracking_id).$promise.then(function(result) {
+            BookingService.loadCargo(cargo.tracking_id).$promise.then(function(result) {
                 $modalInstance.close(result);
             });
         });
@@ -107,7 +107,7 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
 app.controller('SelectItineraryCtrl', function($scope, $location, BookingService) {
     var trackingId = $location.search().tracking_id;
 
-    $scope.cargo = BookingService.getCargo(trackingId);
+    $scope.cargo = BookingService.loadCargo(trackingId);
 
     BookingService.requestPossibleRoutes(trackingId).$promise.then(function(result) {
         $scope.routeCandidates = result.routes;
