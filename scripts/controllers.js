@@ -107,7 +107,9 @@ app.controller('ChangeDestinationCtrl', function($scope, $modalInstance, cargo, 
 app.controller('SelectItineraryCtrl', function($scope, $location, BookingService) {
     var trackingId = $location.search().tracking_id;
 
-    $scope.cargo = BookingService.loadCargo(trackingId);
+	BookingService.loadCargo(trackingId).$promise.then(function(result){
+	    $scope.cargo = result.cargo;
+	});
 
     BookingService.requestPossibleRoutes(trackingId).$promise.then(function(result) {
         $scope.routeCandidates = result.routes;
