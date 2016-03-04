@@ -1,8 +1,8 @@
 var app = angular.module("app");
 
-app.controller('TrackCtrl', function($scope, BookingService) {
+app.controller('TrackCtrl', function($scope, TrackingService) {
     $scope.showCargo = function(trackingId) {
-        BookingService.getCargo(trackingId).$promise.then(function(result) {
+        TrackingService.getCargo(trackingId).$promise.then(function(result) {
             $scope.cargo = result.cargo;
         });
     }
@@ -43,7 +43,7 @@ app.controller('BookCargoCtrl', function($scope, $location, BookingService, $mod
 
     // Books a cargo with selected origin, destinal and arrival deadline and closes the modal.
     $scope.bookCargo = function() {
-        BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, $scope.deadline.getTime()).$promise.then(function(result) {
+        BookingService.bookCargo($scope.selectedOrigin, $scope.selectedDestination, $scope.deadline.toISOString()).$promise.then(function(result) {
             $modalInstance.close(result);
         });
     }
