@@ -27,11 +27,11 @@ app.factory("IncidentService", function(Incident) {
     return {
         registerIncident: function(completionTime, trackingId, voyage, location, eventType) {
             return Incident.register({
-                completionTime: completionTime,
-                trackingId: trackingId,
+                completion_time: completionTime,
+                tracking_id: trackingId,
                 voyage: voyage,
                 location: location,
-                eventType: eventType
+                event_type: eventType
             }, function(data) {
                 return data;
             });

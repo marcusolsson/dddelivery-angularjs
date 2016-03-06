@@ -139,14 +139,15 @@ app.controller('IncidentLoggingCtrl', function($scope, IncidentService) {
 
     $scope.selectEventType = function(type) {
         $scope.selectedEventType = type;
-    }
+    };
 
     $scope.registerIncident = function() {
-        var promise = IncidentService.registerIncident($scope.completionTime.getTime(), $scope.trackingId, $scope.voyage, $scope.location, $scope.selectedEventType).$promise.then(function(data) {
+        IncidentService.registerIncident($scope.completionTime.toISOString(), $scope.trackingId, $scope.voyage, $scope.location, $scope.selectedEventType).$promise.then(function(data) {
             $scope.showMessage = true;
             $scope.showError = false;
         }, function(error) {
             $scope.showError = true;
             $scope.showMessage = false;
-        })    }
+        })
+	};
 });
