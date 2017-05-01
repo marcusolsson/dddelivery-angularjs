@@ -1,0 +1,18 @@
+script: 
+    - npm install -g bower
+    - bower install --config.interactive=false
+
+after_success:
+    - git config --global user.email "ninjasinventedphysics@gmail.com"
+    - git config --global user.name "Marcus Olsson"
+    - rm -rf .git
+    - git init
+    - git add .
+    - git add bower_components -f
+    - git commit -m "deploy commit from travis"
+    - git push -f https://$GH_TOKEN@$GH_REF master:gh-pages
+
+env:
+    global:
+        - GH_REF: github.com/marcusolsson/dddelivery-angularjs.git
+        - secure: dGQVMjfxgSxnAxRyYaFF1YIwwX9+Y8+sDVMPkcp0Wh8OC8nKFAeCGwYclfohgK7QES5o257ueoPZL1IsefR8XKzbzkBDmo02Tqua7jPb8rFqs55oPx3bVXio9pbgoDTc2lsxNKlxjm7ls0Uuu/TBtaGzZYpx1jMP7VfXkG6r6ZM=

@@ -1,0 +1,36 @@
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
+        <form role="form">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter tracking ID" ng-model="searchQuery" ng-minlength=1>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="showCargo(searchQuery)">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <small>Hint: Try 'ABC123'</small>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default" ng-show="cargo">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <h4>Cargo {{ cargo.tracking_id }} is now: {{ cargo.status_text}}</h4>
+                    <p>Estimated time of arrival in {{ cargo.destination }}: {{ cargo.eta | date: 'medium' }}</p>
+                    <p>{{ cargo.next_expected_activity }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-uppercase">Handling history</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="leg in cargo.events">
+                            <span class="glyphicon" ng-class="leg.expected ? 'glyphicon-ok' : 'glyphicon-exclamation-sign'"></span>&nbsp;&nbsp;{{ leg.description }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

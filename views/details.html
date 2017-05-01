@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-xs-12">
+        <a class="btn btn-default pull-right" href="#/list">Return to cargo list</a>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-xs-12" ng-show="cargo">
+        <h2>Details for {{ cargo.tracking_id }}</h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Origin</td>
+                    <td>{{ cargo.origin }}</td>
+                </tr>
+                <tr>
+                    <td>Destination</td>
+                    <td>{{ cargo.destination }}
+                        <br/><a href="" ng-click="open()">Change destination</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Arrival deadline</td>
+                    <td>{{ cargo.arrival_deadline | date: 'medium' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div ng-if="cargo.routed">
+            <div class="has-error" ng-if="cargo.misrouted">
+                <span class="help-block">Cargo is misrouted - <a href="#/selectItinerary?tracking_id={{ cargo.tracking_id }}">Reroute this cargo</a>
+                </span>
+            </div>
+
+            <h3>Itinerary</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Voyage number</th>
+                        <th colspan="2">Load</th>
+                        <th colspan="2">Unload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="leg in cargo.legs">
+                        <td>{{ leg.voyage_number }}</td>
+                        <td>{{ leg.from }}</td>
+                        <td>{{ leg.load_time | date: 'medium' }}</td>
+                        <td>{{ leg.to }}</td>
+                        <td>{{ leg.unload_time | date: 'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div ng-if="cargo.routed === false">
+            <div class="has-warning">
+                <span class="help-block">Cargo has not been routed - <a href="#/selectItinerary?tracking_id={{ cargo.tracking_id }}">Route this cargo</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

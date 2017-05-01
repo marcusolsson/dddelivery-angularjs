@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h4 class="modal-title">Change destination</h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">New Destination</label>
+            <div class="col-sm-8 btn-group" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="disabled">
+                    {{ selectedDestination }}&nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="l in locations">
+                        <a href="" ng-click="selectDestination(l.locode)">{{ l.locode }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+    <button type="button" class="btn btn-primary" ng-click="changeDestination()">Change destination</button>
+</div>

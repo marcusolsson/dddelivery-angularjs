@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-xs-12">
+        <a class="btn btn-default pull-right" href="#/details?tracking_id={{ cargo.tracking_id }}">Return to cargo details</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Cargo {{ cargo.tracking_id }} is going from {{ cargo.origin }} to {{ cargo.destination }}</h2>
+        <div class="panel panel-default" ng-repeat="it in routeCandidates">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Voyage number</th>
+                        <th colspan="2">From</th>
+                        <th colspan="2">To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="leg in it.legs">
+                        <td>{{ leg.voyage_number }}</td>
+                        <td>{{ leg.from }}</td>
+                        <td>{{ leg.load_time | date: 'medium' }}</td>
+                        <td>{{ leg.to }}</td>
+                        <td>{{ leg.unload_time | date: 'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer text-right"><a class="btn btn-primary" ng-click="assignToRoute(it)">Assign cargo to this route</a>
+            </div>
+        </div>
+    </div>
+</div>

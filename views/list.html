@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-primary pull-right" ng-click="open()">Book new cargo</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Tracking ID</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Routed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in cargos" class="repeated-item">
+                    <td><a href="#/details?trackingId={{ c.tracking_id }}">{{ c.tracking_id }}</a>
+                    </td>
+                    <td>{{ c.origin }}</td>
+                    <td>{{ c.destination }}</td>
+                    <td>{{ c.routed === true ? 'Yes' : 'No'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

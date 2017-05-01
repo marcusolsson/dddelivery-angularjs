@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers.js"></script>
+    <script src="scripts/services.js"></script>
+
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/glyphs.css">
+</head>
+
+<body>
+    <nav id="myNavbar" class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Domain Driven Delivery</a> 
+            </div>
+            <ul class="nav navbar-nav navbar-right text-uppercase">
+                <li><a href="#/track">Track</a></li>
+                <li><a href="#/list">Admin</a></li>
+                <li><a href="#/log">Incident Logging</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <div id="view" ng-view></div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <footer>
+                    <p>&copy; Copyright 2014 Marcus Olsson</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

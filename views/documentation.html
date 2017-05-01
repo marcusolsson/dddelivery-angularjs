@@ -1,0 +1,147 @@
+<h2>REST API</h2>
+<div class="row">
+    <div class="col-xs-12">
+		In order to make use of this application, your backend must publish the REST API described on this page. Since this is a learning platform the API is subject to change without notice. If you have any suggestions on how to improve the API, make sure you let me know!
+
+		<h3>Cargos</h3>
+
+		<h4>GET /cargos/:id</h4>
+		<p>Returns a cargo with a given tracking ID.</p>
+		<pre>{
+  "trackingId": "ABC123",
+  "statusText": "In port SESTO",
+  "origin": "SESTO",
+  "destination": "CNHKG",
+  "eta": "2014-11-30T11:17:56.5868066Z",
+  "nextExpectedActivity": "Next expected activity is to load cargo onto voyage 0100S in SESTO.",
+  "misrouted": false,
+  "routed": true,
+  "arrivalDeadline": "0001-01-01T00:00:00Z",
+  "events": [
+    {
+      "description": "Received in SESTO, at 2014-11-24T15:23:33Z",
+      "expected": true
+    }
+  ],
+  "legs": [
+    {
+      "voyageNumber": "0100S",
+      "from": "SESTO",
+      "to": "SEGOT",
+      "loadTime": "2014-11-26T20:31:56.5868066Z",
+      "unloadTime": "2014-11-27T21:30:56.5868066Z"
+    },
+    {
+      "voyageNumber": "0400S",
+      "from": "SEGOT",
+      "to": "CNHKG",
+      "loadTime": "2014-11-29T09:37:56.5868066Z",
+      "unloadTime": "2014-11-30T11:17:56.5868066Z"
+    }
+  ]
+}</pre>
+
+		<h4>GET /cargos</h4>
+		<p>Returns a list of all currently booked cargos.</p>
+
+		<h4>POST /cargos</h4>
+		<p>Books a cargo.
+
+		<table class="table">
+			<thead>
+				<tr><th>URL Param</th><th>Description</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>origin=[string]</td><td>UN locode of the origin</td></tr>
+				<tr><td>destination=[string]</td><td>UN locode of the destination</td></tr>
+				<tr><td>arrivalDeadline=[timestamp]</td><td>Timestamp of the arrival deadline</td></tr>
+			</tbody>
+		</table>
+
+		<h4>POST /cargos/:id/change_destination</h4>
+		<p>Updates the route of a cargo with a new destination.</p>
+
+		<table class="table">
+			<thead>
+				<tr><th>URL Param</th><th>Description</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>destination=[string]</td><td>UN locode of the new destination</td></tr>
+			</tbody>
+		</table>
+
+		<h4>POST /cargos/:id/assign_to_route</h4>
+		<p>Assigns the cargo to a route. Typically one of the routes returned by `/cargos/:id/request_routes`.</p>
+
+		<h4>GET /cargos/:id/request_routes</h4>
+		<p>Requests the possible routes for a booked cargo.</p>
+		<h6>Example Response:</h6>
+		<pre>[
+  {
+    "legs": [
+      {
+        "voyageNumber": "0200T",
+        "from": "SESTO",
+        "to": "USDAL",
+        "loadTime": "2014-11-26T15:45:21.479088664Z",
+        "unloadTime": "2014-11-27T22:59:21.479088664Z"
+      },
+      {
+        "voyageNumber": "0100S",
+        "from": "USDAL",
+        "to": "FIHEL",
+        "loadTime": "2014-11-30T06:08:21.479088664Z",
+        "unloadTime": "2014-12-01T01:03:21.479088664Z"
+      }
+    ]
+  },
+  {
+    "legs": [
+      {
+        "voyageNumber": "0100S",
+        "from": "SESTO",
+        "to": "FIHEL",
+        "loadTime": "2014-11-26T14:27:21.47912978Z",
+        "unloadTime": "2014-11-27T08:55:21.47912978Z"
+      }
+    ]
+  }
+]</pre>
+
+		<hr />
+		<h3>Locations</h3>
+
+		<h4>GET /locations</h4>
+		<p>Returns a list of the registered locations.</p>
+		<h6>Example Response:</h6>
+		<pre>[
+  {
+    "locode": "SESTO",
+    "name": "Stockholm"
+  },
+  {
+    "locode": "AUMEL",
+    "name": "Melbourne"
+  }
+]</pre>
+
+		<hr />
+		<h3>Incidents</h3>
+
+		<h4>POST /incidents</h4>
+
+		<table class="table">
+			<thead>
+				<tr><th>URL Param</th><th>Description</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>completionTime=[timestamp]</td><td>Timestamp of the arrival deadline</td></tr>
+				<tr><td>trackingId=[string]</td><td>Tracking ID of the cargo</td></tr>
+				<tr><td>voyage=[string]</td><td>Voyage number of the voyage</td></tr>
+				<tr><td>location=[string]</td><td>UN locode of the location</td></tr>
+				<tr><td>eventType=[string]</td><td>Event type. Any of the following: Receive, Load, Unload, Claim, Customs</td></tr>
+			</tbody>
+		</table>
+
+    </div>
+</div>

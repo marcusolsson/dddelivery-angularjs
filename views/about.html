@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="jumbotron">
+        <h2>Domain Driven Delivery
+            <small>We're ubiquitous!</small>
+        </h2>
+        <p>A web application frontend for the DDD Sample Application.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <h3>Tracking</h3>
+        <p>This is the view that the customers will see. It allows them to track their cargo along its route.</p>
+        <p><a class="btn btn-primary" href="#/track">Try it</a>
+        </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h3>Admin</h3>
+        <p>This view is used by the shipping company to manage cargos.</p>
+        <p><a class="btn btn-primary" href="#/list">Try it</a>
+        </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h3>Incident Logging</h3>
+        <p>This is where we register handling events along the route.</p>
+        <p><a class="btn btn-primary" href="#/log">Try it</a>
+        </p>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        <h4>Source code</h4>
+        <p>The source code for this web application is available on Github.
+            <ul>
+                <li><a href="https://github.com/marcusolsson/dddelivery-angularjs">dddelivery-angularjs</a> (frontend)</li>
+                <li><a href="https://github.com/marcusolsson/goddd">goddd</a> (backend)</li>
+                <li><a href="https://github.com/marcusolsson/pathfinder">pathfinder</a> (routing context)</li>
+            </ul>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <h4>Backend</h4>
+        <p>There is currently one implementation of the backend. Contact me if you want your implementation listed here. Choose the backend you want to use:</p>
+        <div class="btn-group" dropdown ng-controller="SelectBackendCtrl">
+            <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="disabled">
+                {{ currentBackend.description }}&nbsp;
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li ng-repeat="b in backends"><a href="" ng-click="selectBackend(b)">{{ b.description }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

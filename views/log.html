@@ -1,0 +1,48 @@
+<form class="form-horizontal">
+	<div class="form-group">
+		<label class="control-label col-xs-2">Type</label>
+        <div class="col-xs-10 col-md-5 btn-group" dropdown>
+            <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="disabled">
+                {{ selectedEventType }}&nbsp;
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="type in eventTypes">
+                    <a href="" ng-click="selectEventType(type)">{{ type }}</a>
+                </li>
+            </ul>
+        </div>
+	</div>
+	<div class="form-group">
+		<label for="inputTrackingID" class="control-label col-xs-2">Tracking ID</label>
+        <div class="col-xs-10 col-md-3">
+            <input type="text" class="form-control" id="inputTrackingID" ng-model="trackingId">
+        </div>
+	</div>
+		<div class="form-group">
+		<label for="inputVoyage" class="control-label col-xs-2">Voyage</label>
+        <div class="col-xs-10 col-md-3">
+            <input type="text" class="form-control" id="inputVoyage" ng-model="voyage">
+        </div>
+	</div>
+	<div class="form-group">
+		<label for="inputLocation" class="control-label col-xs-2">Location</label>
+        <div class="col-xs-10 col-md-3">
+            <input type="text" class="form-control" id="inputLocation" placeholder="UN Locode" ng-model="location">
+        </div>
+	</div>
+	<div class="form-group">
+		<label for="inputCompletionTime" class="control-label col-xs-2">Completion time</label>
+		<div class="col-xs-10 col-md-3">
+            <datepicker ng-model="completionTime" show-weeks="false" id="inputCompletionTime"></datepicker>
+        </div>
+	</div>
+	<div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-primary" ng-click="registerIncident()">Register incident</button>
+        </div>
+    </div>
+</form>
+
+<div class="alert alert-success col-xs-12 col-md-6 row" role="alert" ng-if="showMessage">Successfully registered incident</div>
+<div class="alert alert-danger col-xs-12 col-md-6 row" role="alert" ng-if="showError">Could not register incident</div>
