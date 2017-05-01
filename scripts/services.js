@@ -2,10 +2,6 @@ var app = angular.module("app");
 
 app.factory("BackendService", function($cookieStore) {
     var backends = [{
-        host: 'https://dddsample.marcusoncode.se',
-        description: 'Go (Marcus Olsson)'
-    },
-        {
             host: 'http://localhost:3000',
             description: 'localhost:3000'
         }];
